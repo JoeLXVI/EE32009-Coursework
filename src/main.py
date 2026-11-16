@@ -257,7 +257,19 @@ if __name__ == "__main__":
     filteredD1 = bandpassFilter(d1, 5, 1500)
     model = trainFinalModel(filteredD1, index1, classification1, lambda: SVC())
     generateSubmission(2, model, k=4, distance=20)
-    zipSubmission(["data/outputs/D2.mat"])
+    generateSubmission(3, model, k=4, distance=20)
+    generateSubmission(4, model, k=4, distance=20)
+    generateSubmission(5, model, k=4, distance=20)
+    generateSubmission(6, model, k=4, distance=20)
+    zipSubmission(
+        [
+            "data/outputs/D2.mat",
+            "data/outputs/D3.mat",
+            "data/outputs/D4.mat",
+            "data/outputs/D5.mat",
+            "data/outputs/D6.mat",
+        ],
+    )
     # runClassifierExperiment(filteredD, index, classification)
     # regenerateD1(filteredD, index, classification)
     # plt.show()
