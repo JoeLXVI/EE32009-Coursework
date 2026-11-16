@@ -57,7 +57,7 @@ def estimateNoise(d):
 
 
 def detectPeaks(filtered, sigma, k=peakHeight, distance=minDistance):
-    positions, properties = signal.find_peaks(
+    positions, _ = signal.find_peaks(
         filtered, height=k * sigma, distance=distance
     )
     return positions
@@ -209,7 +209,6 @@ def saveSubmission(path, index, classification):
 
 
 def runClassifierExperiment(filteredD, index, classification):
-    """Time-block cross-validation of each classifier, with confusion matrices."""
     sigma = estimateNoise(filteredD)
     peakIndex = detectPeaks(filteredD, sigma)
     peakLabels = labelPeaks(peakIndex, index, classification)
@@ -234,7 +233,6 @@ def runClassifierExperiment(filteredD, index, classification):
 
 
 def regenerateD1(filteredD, index, classification, path="data/outputs/D1.mat"):
-    """Task 1: regenerate Index and Class for D1 and save them (out-of-sample predictions)."""
     spikeIndex, spikeClass = crossFittedPredict(
         filteredD, index, classification, lambda: SVC()
     )
@@ -257,7 +255,19 @@ if __name__ == "__main__":
     filteredD1 = bandpassFilter(d1, 5, 1500)
     model = trainFinalModel(filteredD1, index1, classification1, lambda: SVC())
     generateSubmission(2, model, k=4, distance=20)
-    zipSubmission(["data/outputs/D2.mat"])
+    generateSubmission(3, model, k=4, distance=20)
+    generateSubmission(4, model, k=4, distance=20)
+    generateSubmission(5, model, k=4, distance=20)
+    generateSubmission(6, model, k=4, distance=20)
+    zipSubmission(
+        [
+            "data/outputs/D2.mat",
+            "data/outputs/D3.mat",
+            "data/outputs/D4.mat",
+            "data/outputs/D5.mat",
+            "data/outputs/D6.mat",
+        ],
+    )
     # runClassifierExperiment(filteredD, index, classification)
     # regenerateD1(filteredD, index, classification)
     # plt.show()
